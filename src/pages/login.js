@@ -27,7 +27,9 @@ const Login = () => {
 
     useEffect(() => {
         if (router.query.reset?.length > 0 && errors.length === 0) {
-            setStatus(atob(router.query.reset))
+            setStatus(
+                Buffer.from(router.query.reset, 'base64').toString('ascii'),
+            )
         } else {
             setStatus(null)
         }
@@ -49,14 +51,29 @@ const Login = () => {
         <GuestLayout>
             <AuthCard
                 logo={
-                    <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                    <Link
+                        href="/"
+                        className="flex items-center mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
+                        <ApplicationLogo className="w-8 h-8 mr-2 text-gray-500 fill-current" />
+                        Personacle
                     </Link>
                 }>
                 {/* Session Status */}
                 <AuthSessionStatus className="mb-4" status={status} />
 
-                <form onSubmit={submitForm}>
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Sign in to your account
+                    <p className="mt-1 text-sm font-light text-gray-500 dark:text-gray-400">
+                        Don't have an account yet? &nbsp;
+                        <Link
+                            href="/register"
+                            className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                            Sign up
+                        </Link>
+                    </p>
+                </h1>
+
+                <form onSubmit={submitForm} className="mt-4 space-y-4">
                     {/* Email Address */}
                     <div>
                         <Label htmlFor="email">Email</Label>
@@ -65,7 +82,7 @@ const Login = () => {
                             id="email"
                             type="email"
                             value={email}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event => setEmail(event.target.value)}
                             required
                             autoFocus
@@ -82,7 +99,7 @@ const Login = () => {
                             id="password"
                             type="password"
                             value={password}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event => setPassword(event.target.value)}
                             required
                             autoComplete="current-password"
@@ -95,7 +112,7 @@ const Login = () => {
                     </div>
 
                     {/* Remember Me */}
-                    <div className="block mt-4">
+                    <div className="flex items-center justify-between mt-4">
                         <label
                             htmlFor="remember_me"
                             className="inline-flex items-center">
@@ -103,7 +120,7 @@ const Login = () => {
                                 id="remember_me"
                                 type="checkbox"
                                 name="remember"
-                                className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                className="text-indigo-600 border-gray-300 rounded shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 onChange={event =>
                                     setShouldRemember(event.target.checked)
                                 }
@@ -113,16 +130,18 @@ const Login = () => {
                                 Remember me
                             </span>
                         </label>
-                    </div>
 
-                    <div className="flex items-center justify-end mt-4">
                         <Link
                             href="/forgot-password"
-                            className="underline text-sm text-gray-600 hover:text-gray-900">
+                            className="text-sm text-gray-600 underline hover:text-gray-900">
                             Forgot your password?
                         </Link>
+                    </div>
 
-                        <Button className="ml-3">Login</Button>
+                    <div className="flex items-center mt-4">
+                        <Button className="items-center justify-center w-full">
+                            Login
+                        </Button>
                     </div>
                 </form>
             </AuthCard>

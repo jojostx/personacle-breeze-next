@@ -2,9 +2,7 @@ import ApplicationLogo from '@/components/ApplicationLogo'
 import Dropdown from '@/components/Dropdown'
 import Link from 'next/link'
 import NavLink from '@/components/NavLink'
-import ResponsiveNavLink, {
-    ResponsiveNavButton,
-} from '@/components/ResponsiveNavLink'
+import ResponsiveNavLink, { ResponsiveNavButton } from '@/components/ResponsiveNavLink'
 import { DropdownButton } from '@/components/DropdownLink'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/router'
@@ -20,13 +18,13 @@ const Navigation = ({ user }) => {
     return (
         <nav className="bg-white border-b border-gray-100">
             {/* Primary Navigation Menu */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
                         {/* Logo */}
-                        <div className="flex-shrink-0 flex items-center">
+                        <div className="flex items-center flex-shrink-0">
                             <Link href="/dashboard">
-                                <ApplicationLogo className="block h-10 w-auto fill-current text-gray-600" />
+                                <ApplicationLogo className="block w-auto h-10 text-gray-600 fill-current" />
                             </Link>
                         </div>
 
@@ -37,6 +35,11 @@ const Navigation = ({ user }) => {
                                 active={router.pathname === '/dashboard'}>
                                 Dashboard
                             </NavLink>
+                            <NavLink
+                                href="/questions"
+                                active={router.pathname === '/questions'}>
+                                Questions
+                            </NavLink>
                         </div>
                     </div>
 
@@ -46,12 +49,12 @@ const Navigation = ({ user }) => {
                             align="right"
                             width="48"
                             trigger={
-                                <button className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
+                                <button className="flex items-center text-sm font-medium text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none">
                                     <div>{user?.name}</div>
 
                                     <div className="ml-1">
                                         <svg
-                                            className="fill-current h-4 w-4"
+                                            className="w-4 h-4 fill-current"
                                             xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 20 20">
                                             <path
@@ -71,12 +74,12 @@ const Navigation = ({ user }) => {
                     </div>
 
                     {/* Hamburger */}
-                    <div className="-mr-2 flex items-center sm:hidden">
+                    <div className="flex items-center -mr-2 sm:hidden">
                         <button
                             onClick={() => setOpen(open => !open)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                            className="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
                             <svg
-                                className="h-6 w-6"
+                                className="w-6 h-6"
                                 stroke="currentColor"
                                 fill="none"
                                 viewBox="0 0 24 24">
@@ -112,6 +115,11 @@ const Navigation = ({ user }) => {
                             active={router.pathname === '/dashboard'}>
                             Dashboard
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href="/questions"
+                            active={router.pathname === '/questions'}>
+                            Questions
+                        </ResponsiveNavLink>
                     </div>
 
                     {/* Responsive Settings Options */}
@@ -119,7 +127,7 @@ const Navigation = ({ user }) => {
                         <div className="flex items-center px-4">
                             <div className="flex-shrink-0">
                                 <svg
-                                    className="h-10 w-10 fill-current text-gray-400"
+                                    className="w-10 h-10 text-gray-400 fill-current"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -134,10 +142,10 @@ const Navigation = ({ user }) => {
                             </div>
 
                             <div className="ml-3">
-                                <div className="font-medium text-base text-gray-800">
+                                <div className="text-base font-medium text-gray-800">
                                     {user?.name}
                                 </div>
-                                <div className="font-medium text-sm text-gray-500">
+                                <div className="text-sm font-medium text-gray-500">
                                     {user?.email}
                                 </div>
                             </div>

@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const router = useRouter()
 
-    const { data: user, error, mutate } = useSWR('/api/user', () =>
+    const { data: user, error, mutate } = useSWR('/api/v1/user', () =>
         axios
-            .get('/api/user')
+            .get('/api/v1/user')
             .then(res => res.data)
             .catch(error => {
                 if (error.response.status !== 409) throw error
@@ -75,7 +75,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         axios
             .post('/reset-password', { token: router.query.token, ...props })
             .then(response =>
-                router.push('/login?reset=' + btoa(response.data.status)),
+                router.push('/login?reset=' + Buffer.from(response.data.status).toString('base64')),
             )
             .catch(error => {
                 if (error.response.status !== 422) throw error

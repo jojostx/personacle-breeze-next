@@ -37,11 +37,26 @@ const Register = () => {
         <GuestLayout>
             <AuthCard
                 logo={
-                    <Link href="/">
-                        <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                    <Link
+                        href="/"
+                        className="flex items-center mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
+                        <ApplicationLogo className="w-8 h-8 mr-2 text-gray-500 fill-current" />
+                        Personacle
                     </Link>
                 }>
-                <form onSubmit={submitForm}>
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                    Create your account
+                    <p className="mt-1 text-sm font-light text-gray-500 dark:text-gray-400">
+                        Already have an account? &nbsp;
+                        <Link
+                            href="/login"
+                            className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                            Login
+                        </Link>
+                    </p>
+                </h1>
+
+                <form onSubmit={submitForm} className="mt-4 space-y-4">
                     {/* Name */}
                     <div>
                         <Label htmlFor="name">Name</Label>
@@ -50,7 +65,7 @@ const Register = () => {
                             id="name"
                             type="text"
                             value={name}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event => setName(event.target.value)}
                             required
                             autoFocus
@@ -67,7 +82,7 @@ const Register = () => {
                             id="email"
                             type="email"
                             value={email}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event => setEmail(event.target.value)}
                             required
                         />
@@ -83,7 +98,7 @@ const Register = () => {
                             id="password"
                             type="password"
                             value={password}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event => setPassword(event.target.value)}
                             required
                             autoComplete="new-password"
@@ -105,7 +120,7 @@ const Register = () => {
                             id="passwordConfirmation"
                             type="password"
                             value={passwordConfirmation}
-                            className="block mt-1 w-full"
+                            className="block w-full mt-1"
                             onChange={event =>
                                 setPasswordConfirmation(event.target.value)
                             }
@@ -119,13 +134,19 @@ const Register = () => {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Link
-                            href="/login"
-                            className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Already registered?
-                        </Link>
+                        <Button className="items-center justify-center w-full">Register</Button>
+                    </div>
 
-                        <Button className="ml-4">Register</Button>
+                    <div className="mt-3 text-sm text-center text-gray-500">
+                        By creating an account, you agree to the&nbsp;
+                        <Link href="/" className="underline">
+                            terms &amp; conditions
+                        </Link>
+                        , and our&nbsp;
+                        <Link href="/" className="underline">
+                            privacy policy
+                        </Link>
+                        .
                     </div>
                 </form>
             </AuthCard>
