@@ -11,7 +11,7 @@ const Result = () => {
         async function getResultData() {
             const response = await axios.get('/api/v1/user/results')
             const result = response.data.data
-            console.log(result)
+
             if (result) {
                 setResult(result)
             }
@@ -34,7 +34,7 @@ const Result = () => {
 
             <div className="py-4">
                 <div className="flex items-center justify-center h-full p-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    {/* <ResultDoughnutChart result={result}/> */}
+                    <ResultDoughnutChart result={result}/>
                 </div>
             </div>
         </AppLayout>
