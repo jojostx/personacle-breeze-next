@@ -2,19 +2,23 @@ import ArrowIcon from '@/components/ArrowIcon'
 import Banner from '@/components/Banner'
 import Button from '@/components/Button'
 import AppLayout from '@/components/Layouts/AppLayout'
+import LoadingSpinner from '@/components/LoadingSpinner'
 import Question from '@/components/Question'
 import { useStateContext } from '@/contexts/QuestionContext'
 import useWatch from '@/hooks/useWatch'
 import axios from '@/lib/axios'
 import { Progress } from 'flowbite-react'
+import { flatten, toInteger } from 'lodash'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 const Questions = () => {
+    const router = useRouter()
     const [questions, setQuestions] = useState()
     const [showProgressBar, setShowProgressBar] = useState(false)
-    const [hasFormError, setHasFormError] = useState(false)
-    const [formError, setFormError] = useState('')
+    const [hasFormErrors, setHasFormErrors] = useState(false)
+    const [formErrors, setFormErrors] = useState([])
     const {
         questionsAnswered,
         totalQuestions,
@@ -45,14 +49,32 @@ const Questions = () => {
         }
     }, [questionsAnswered])
 
-    const submitForm = e => {
+    const showError = body => {
+        setHasFormErrors(true)
+        setFormErrors(body)
+    }
+
+    const hideError = () => {
+        setHasFormErrors(false)
+        setFormErrors(null)
+    }
+
+    const getPercentageAnswered = () => {
+        let percentage = questionsAnswered.answers.size / totalQuestions
+
+        if (!percentage) percentage = 0
+
+        return Math.ceil(percentage * 100)
+    }
+
+    const submitForm = async e => {
         // Prevent the browser from reloading the page
         e.preventDefault()
 
         if (getPercentageAnswered() < 100) {
-            showError(
+            showError([
                 'You have some unanswered questions, answer all before submitting.',
-            )
+            ])
             return
         }
 
@@ -64,28 +86,43 @@ const Questions = () => {
 
         // you can work with it as a plain object:
         const formJson = Object.fromEntries(formData.entries())
-        // console.log(formJson)
 
+        let answers = []
+
+        for (const key in formJson) {
+            if (Object.hasOwnProperty.call(formJson, key)) {
+                const score = toInteger(formJson[key])
+                const question_id = toInteger(
+                    key.substring(key.indexOf('-') + 1),
+                )
+
+                answers.push({
+                    question_id,
+                    score,
+                })
+            }
+        }
+        
         // // You can pass formData as a fetch body directly:
-        // fetch('/some-api', { method: form.method, body: formData })
-    }
+        const data = {
+            data: {
+                type: 'answers',
+                attributes: answers,
+            },
+        }
 
-    const showError = body => {
-        setHasFormError(true)
-        setFormError(body)
-    }
+        await axios
+            .post('/api/v1/user/answers', data)
+            .then(response => {
+                return router.push('/result')
+            })
+            .catch(error => {
+                if (error.response.status !== 422) throw error
 
-    const hideError = () => {
-        setHasFormError(false)
-        setFormError('')
-    }
+                let errors = error.response.data.errors
 
-    const getPercentageAnswered = () => {
-        let percentage = questionsAnswered.answers.size / totalQuestions
-
-        if (!percentage) percentage = 0
-
-        return Math.round(percentage * 100)
+                showError(flatten(Object.values(errors)))
+            })
     }
 
     return (
@@ -126,7 +163,8 @@ const Questions = () => {
                                 ))}
                             </ol>
                         ) : (
-                            <div className="flex items-center justify-center h-full p-12">
+                            <div className="flex flex-col items-center justify-center h-full p-12 space-y-4">
+                                <LoadingSpinner />
                                 loading...
                             </div>
                         )}
@@ -140,15 +178,19 @@ const Questions = () => {
                 </form>
             </div>
 
-            {hasFormError && (
+            {hasFormErrors && (
                 <div className="fixed bottom-0 right-0 z-50 w-full md:right-12 md:bottom-8 md:w-auto">
                     <div className="flex items-center justify-between p-2 text-sm shadow-lg bg-danger-800 md:rounded">
-                        <div className="flex-1 text-danger-100">
-                            {formError}
+                        <div className="flex-1 space-y-1 text-danger-100">
+                            {formErrors.map((error, key) => (
+                                <p key={key}>
+                                    {error}
+                                </p>
+                            ))}
                         </div>
                         <button
                             className={`p-3 ml-3 border-l border-danger-500 text-danger-300 hover:text-danger-200`}
-                            onClick={() => setHasFormError(false)}>
+                            onClick={() => setHasFormErrors(false)}>
                             <span className="sr-only">Close</span>
                             <svg
                                 className="w-4 h-4 fill-current shrink-0"

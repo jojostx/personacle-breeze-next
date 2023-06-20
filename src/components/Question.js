@@ -2,6 +2,8 @@ import { useStateContext } from '@/contexts/QuestionContext'
 import { range } from '@/lib/util'
 
 const Question = ({ question }) => {
+    const { setQuestionsAnswered } = useStateContext()
+
     const options = {
         1: 'Strongly Disagree',
         2: 'Disagree',
@@ -9,8 +11,6 @@ const Question = ({ question }) => {
         4: 'Agree',
         5: 'Strongly Agree',
     }
-
-    const { setQuestionsAnswered } = useStateContext()
 
     const onQuestionAnswered = (event, question) => {
         event.preventDefault()
@@ -22,17 +22,25 @@ const Question = ({ question }) => {
         <>
             <li
                 key={question.id}
-                className="p-4 space-y-2 text-gray-500 bg-white dark:text-gray-400 md:py-8 md:px-8 dark:bg-gray-800 dark:border-gray-700">
-                {question.attributes.question}
+                className="p-4 space-y-2 bg-white md:py-8 md:px-8 dark:bg-gray-800 dark:border-gray-700">
+                <span className='font-semibold text-black dark:text-gray-300'>{question.attributes.question}</span>
 
                 <ul
                     onInput={event => onQuestionAnswered(event, question.id)}
                     id={question.id}
                     className="items-center w-full mt-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 divide-y rounded-lg md:divide-x md:divide-y-0 md:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     {range(
-                        question.attributes.min_score,
-                        question.attributes.max_score,
+                        Math.min(
+                            question.attributes.min_score,
+                            question.attributes.max_score,
+                        ),
+                        Math.max(
+                            question.attributes.min_score,
+                            question.attributes.max_score,
+                        ),
                         question.attributes.score_step,
+                        question.attributes.min_score >
+                            question.attributes.max_score,
                     ).map(id => (
                         <li
                             key={`${question.id}-${id}`}
@@ -41,7 +49,7 @@ const Question = ({ question }) => {
                                 id={`answer-${question.id}-${id}`}
                                 type="radio"
                                 value={id}
-                                name={`question-${question.id}`}
+                                name={`q-${question.id}`}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                             />
                             <label
