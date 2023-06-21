@@ -140,7 +140,7 @@ const Questions = () => {
 
         await axios
             .post('/api/v1/user/answers', data)
-            .then(response => {
+            .then(() => {
                 setIsSubmitting(false)
                 return router.push('/result')
             })
