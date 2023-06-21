@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 
 ChartJS.register(ArcElement, Tooltip)
 
-
 export default function ResultDoughnutChart({ result }) {
     const [priTemperament, setPriTemperament] = useState()
     const [secTemperament, setSecTemperament] = useState()
@@ -18,7 +17,7 @@ export default function ResultDoughnutChart({ result }) {
     const [personalityTraitData, setPersonalityTraitData] = useState()
     const [secTemperamentData, setSecTemperamentTraitData] = useState()
     const [priTemperamentData, setPriTemperamentTraitData] = useState()
-    
+
     const sliceThickeness = {
         id: 'sliceThickeness',
         beforeDraw: function (chart) {
@@ -28,7 +27,7 @@ export default function ResultDoughnutChart({ result }) {
             const heightOfItem = outerRadius - innerRadius
             const countOfData = chart.getDatasetMeta(0).data.length
             const additionalRadius = Math.floor(heightOfItem / countOfData)
-    
+
             const weightsMap = datasetMeta.data
                 .map(v => v.circumference)
                 .sort((a, b) => a - b)
@@ -36,28 +35,28 @@ export default function ResultDoughnutChart({ result }) {
                     a.set(c, ci + 1)
                     return a
                 }, new Map())
-    
+
             datasetMeta.data.forEach(dataItem => {
                 const weight = weightsMap.get(dataItem.circumference)
                 dataItem.outerRadius = innerRadius + additionalRadius * weight
             })
         },
     }
-    
+
     const colors = {
         red: 'rgba(255, 0, 0, 1)',
         green: 'rgba(8, 198, 49, 1)',
         blue: 'rgba(0, 80, 255, 1)',
         yellow: 'rgba(244, 237, 0, 1)',
     }
-    
+
     const temperamentColors = {
         sanguine: 'yellow',
         melancholy: 'blue',
         phelgmatic: 'green',
         choleric: 'red',
     }
-    
+
     const personalityTraitSymbols = {
         'openness to experience': '💡',
         conscentiousnes: '⚙️',
@@ -133,13 +132,16 @@ export default function ResultDoughnutChart({ result }) {
                         data: [100],
                         backgroundColor: [formatRgb(priTemperamentColor)],
                         borderWidth: 1,
-                        radius: '40%'
+                        radius: '40%',
                     },
                 ],
             }
         }
 
-        const getSecTemperamentData = (secTemperamentScores, secTemperamentColors) => {
+        const getSecTemperamentData = (
+            secTemperamentScores,
+            secTemperamentColors,
+        ) => {
             return {
                 labels: ['Red', 'Blue', 'Yellow', 'Green'],
                 datasets: [
@@ -153,13 +155,17 @@ export default function ResultDoughnutChart({ result }) {
                             anchor: 'center',
                             clamp: true,
                             borderWidth: 0,
-                        }
+                        },
                     },
                 ],
             }
         }
 
-        const getPersonalityTraitData = (personalityTraitScores, priTemperamentColor, secTemperamentColor) => {
+        const getPersonalityTraitData = (
+            personalityTraitScores,
+            priTemperamentColor,
+            secTemperamentColor,
+        ) => {
             return {
                 labels: ['Red', 'Blue', 'Yellow', 'Green'],
                 datasets: [
@@ -225,11 +231,18 @@ export default function ResultDoughnutChart({ result }) {
 
             const secTempColors = getSecTemperamentColors(priTemp)
 
-            const personalityTraitData = getPersonalityTraitData(persTraitScores, priTempColor, secTempColor)
+            const personalityTraitData = getPersonalityTraitData(
+                persTraitScores,
+                priTempColor,
+                secTempColor,
+            )
 
             const priTempData = getPriTemperamentData(priTempColor)
 
-            const secTempData = getSecTemperamentData(secTempScores, secTempColors)
+            const secTempData = getSecTemperamentData(
+                secTempScores,
+                secTempColors,
+            )
 
             setPriTemperament(priTemp)
 
@@ -250,10 +263,9 @@ export default function ResultDoughnutChart({ result }) {
             setPriTemperamentTraitData(priTempData)
 
             setSecTemperamentTraitData(secTempData)
-
         }
     }, [result])
-    
+
     console.log(secTemperamentData)
     console.log(priTemperamentData)
     console.log(personalityTraitData)
@@ -263,76 +275,136 @@ export default function ResultDoughnutChart({ result }) {
     return (
         <>
             {result && (
-                <div className="flex flex-col items-center justify-center w-full max-w-xl space-y-4">
-                    <h2>Personality Result</h2>
-                    <div className="relative w-full h-full">
-                        <div className="absolute inset-0">
-                            {secTemperamentData && (
-                                <Doughnut
-                                    options={{ 
-                                        cutout: '60%' ,
-                                        plugins: {
-                                        // Change options for ALL labels of THIS CHART
-                                            datalabels: {
-                                                backgroundColor: 'white',
-                                                borderRadius: 25,
-                                                color: 'black',
-                                                font: { weight: 'bold' },
-                                                padding: 6,
-                                                formatter: function (value, context) {
-                                                    return Math.round(value)
+                <>
+                    <div className="flex flex-col items-center justify-center w-full max-w-xl">
+                        <h2 className='text-xl font-semibold'>Personality Result</h2>
+                        <div className="relative w-full h-full mt-6">
+                            <div className="absolute inset-0">
+                                {secTemperamentData && (
+                                    <Doughnut
+                                        options={{
+                                            cutout: '60%',
+                                            plugins: {
+                                                // Change options for ALL labels of THIS CHART
+                                                datalabels: {
+                                                    backgroundColor: 'white',
+                                                    borderRadius: 25,
+                                                    color: 'black',
+                                                    font: { weight: 'bold' },
+                                                    padding: 6,
+                                                    formatter: function (
+                                                        value,
+                                                        context,
+                                                    ) {
+                                                        return Math.round(value)
+                                                    },
                                                 },
                                             },
-                                        },
-                                    }}
-                                    plugins={[ChartDataLabels]}
-                                    data={secTemperamentData}
-                                />
-                            )}
-                        </div>
-                        <div className="absolute inset-0">
-                            {priTemperamentData && (
-                                <Pie data={priTemperamentData} />
-                            )}
-                        </div>
-                        <div className="relative">
-                            {personalityTraitData && (
-                                <Doughnut
-                                    options={{
-                                        cutout: '60%',
-                                        plugins: {
-                                            // Change options for ALL labels of THIS CHART
-                                            datalabels: {
-                                                backgroundColor: 'white',
-                                                borderRadius: 25,
-                                                color: 'black',
-                                                font: { weight: 'bold' },
-                                                padding: 6,
-                                                formatter: function (value, context) {
-                                                    let i = context.dataIndex
-
-                                                    return (Object.values(personalityTraitSymbols)[i] + ' ' + Math.round(value))
-                                                },
-                                            },
-                                        },
-                                    }}
-                                    plugins={[sliceThickeness, ChartDataLabels]}
-                                    data={personalityTraitData}
-                                />
-                            )}
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="flex flex-col items-center justify-center p-1 text-sm font-medium capitalize bg-white rounded-md md:p-2 md:text-base md:font-semibold">
-                                {priTemperament && (
-                                    <>
-                                        <p>{priTemperament.title}</p>
-                                        <p>{priTemperament.score * 100}%</p>
-                                    </>
+                                        }}
+                                        plugins={[ChartDataLabels]}
+                                        data={secTemperamentData}
+                                    />
                                 )}
+                            </div>
+                            <div className="absolute inset-0">
+                                {priTemperamentData && (
+                                    <Pie data={priTemperamentData} />
+                                )}
+                            </div>
+                            <div className="relative">
+                                {personalityTraitData && (
+                                    <Doughnut
+                                        options={{
+                                            cutout: '60%',
+                                            plugins: {
+                                                // Change options for ALL labels of THIS CHART
+                                                datalabels: {
+                                                    backgroundColor: 'white',
+                                                    borderRadius: 25,
+                                                    color: 'black',
+                                                    font: { weight: 'bold' },
+                                                    padding: 6,
+                                                    formatter: function (
+                                                        value,
+                                                        context,
+                                                    ) {
+                                                        let i =
+                                                            context.dataIndex
+
+                                                        return (
+                                                            Object.values(
+                                                                personalityTraitSymbols,
+                                                            )[i] +
+                                                            ' ' +
+                                                            Math.round(value)
+                                                        )
+                                                    },
+                                                },
+                                            },
+                                        }}
+                                        plugins={[
+                                            sliceThickeness,
+                                            ChartDataLabels,
+                                        ]}
+                                        data={personalityTraitData}
+                                    />
+                                )}
+                            </div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="flex flex-col items-center justify-center p-1 text-sm font-medium capitalize bg-white rounded-md md:p-2 md:text-base md:font-semibold">
+                                    {priTemperament && (
+                                        <>
+                                            <p>{priTemperament.title}</p>
+                                            <p>{priTemperament.score * 100}%</p>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 pb-6 mt-6 lg:items-center lg:justify-center">
+                            <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span style={{backgroundColor: colors.blue}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
+                                    Melancholy
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span style={{backgroundColor: colors.red}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
+                                    Choleric
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span style={{backgroundColor: colors.yellow}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
+                                    Sanguine
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span style={{backgroundColor: colors.green}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
+                                    Phelgmatic
+                                </span>
+                            </div>
+                            <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
+                                <span className="flex items-center flex-shrink-0 text-sm font-medium text-gray-900 dark:text-white">
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">💡</span>
+                                    Openness to experience
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">⚙️</span>
+                                    Conscentiousnes
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">💬</span>
+                                    Extraversion
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">🤝</span>
+                                    Agreeableness
+                                </span>
+                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">⛈️</span>
+                                    Neuroticism
+                                </span>
                             </div>
                         </div>
                     </div>
-                </div>
+                </>
             )}
         </>
     )
