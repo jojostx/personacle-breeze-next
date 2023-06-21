@@ -266,12 +266,6 @@ export default function ResultDoughnutChart({ result }) {
         }
     }, [result])
 
-    console.log(secTemperamentData)
-    console.log(priTemperamentData)
-    console.log(personalityTraitData)
-    console.log(priTemperament)
-    console.log(secTemperament)
-
     return (
         <>
             {result && (
@@ -361,43 +355,43 @@ export default function ResultDoughnutChart({ result }) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-2 pb-6 mt-6 lg:items-center lg:justify-center">
+                        <div className="flex flex-col gap-4 pb-6 mt-6 lg:items-center lg:justify-center">
                             <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span style={{backgroundColor: colors.blue}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
                                     Melancholy
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span style={{backgroundColor: colors.red}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
                                     Choleric
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span style={{backgroundColor: colors.yellow}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
                                     Sanguine
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span style={{backgroundColor: colors.green}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
                                     Phelgmatic
                                 </span>
                             </div>
                             <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
-                                <span className="flex items-center flex-shrink-0 text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center flex-shrink-0 font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">💡</span>
                                     Openness to experience
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">⚙️</span>
                                     Conscentiousnes
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">💬</span>
                                     Extraversion
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">🤝</span>
                                     Agreeableness
                                 </span>
-                                <span className="flex items-center text-sm font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">⛈️</span>
                                     Neuroticism
                                 </span>

@@ -1,17 +1,26 @@
 import ArrowIcon from '@/components/ArrowIcon'
 import Banner from '@/components/Banner'
-import Button from '@/components/Button'
+// import Button from '@/components/Button'
 import AppLayout from '@/components/Layouts/AppLayout'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import Question from '@/components/Question'
 import { useStateContext } from '@/contexts/QuestionContext'
 import useWatch from '@/hooks/useWatch'
 import axios from '@/lib/axios'
-import { Progress } from 'flowbite-react'
+import { Flowbite, Progress } from 'flowbite-react'
 import { flatten, toInteger } from 'lodash'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { Button } from 'flowbite-react'
+
+const customTheme = {
+    button: {
+      color: {
+        primary: 'bg-primary-800 border border-transparent text-white hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150',
+      },
+    },
+  };  
 
 const Questions = () => {
     const router = useRouter()
@@ -25,17 +34,32 @@ const Questions = () => {
         setTotalQuestions,
     } = useStateContext()
 
+    const [answeredQuestions, setAnsweredQuestions] = useState()
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     useEffect(() => {
         async function getQuestions() {
             const response = await axios.get('/api/v1/questions')
             const questions = response.data.data
+
             if (questions) {
                 setQuestions(questions)
                 setTotalQuestions(questions.length)
             }
         }
+
+        async function getAnsweredQuestions() {
+            const response = await axios.get('/api/v1/user/answers')
+
+            const answeredQuestions = response.data.data
+
+            setAnsweredQuestions(answeredQuestions)
+        }
+
         if (!questions) {
             getQuestions()
+            getAnsweredQuestions()
         }
     }, [])
 
@@ -71,6 +95,8 @@ const Questions = () => {
         // Prevent the browser from reloading the page
         e.preventDefault()
 
+        setIsSubmitting(true)
+
         if (getPercentageAnswered() < 100) {
             showError([
                 'You have some unanswered questions, answer all before submitting.',
@@ -102,7 +128,7 @@ const Questions = () => {
                 })
             }
         }
-        
+
         // // You can pass formData as a fetch body directly:
         const data = {
             data: {
@@ -114,6 +140,7 @@ const Questions = () => {
         await axios
             .post('/api/v1/user/answers', data)
             .then(response => {
+                setIsSubmitting(false)
                 return router.push('/result')
             })
             .catch(error => {
@@ -123,6 +150,18 @@ const Questions = () => {
 
                 showError(flatten(Object.values(errors)))
             })
+    }
+
+    const questionIsAnswered = question_id => {
+        if (!answeredQuestions) {
+            return false
+        }
+
+        const answer = answeredQuestions.find(
+            element => element.attributes.question_id === question_id,
+        )
+
+        return answer ? answer.attributes.score : false
     }
 
     return (
@@ -159,7 +198,15 @@ const Questions = () => {
                         {questions ? (
                             <ol className="space-y-2 list-decimal list-inside border border-gray-200 divide-y-2 divide-gray-300 rounded-lg shadow-sm dark:border-gray-700">
                                 {questions?.map(q => (
-                                    <Question question={q} key={q?.id} />
+                                    <Question
+                                        question={q}
+                                        key={q?.id}
+                                        {...(questionIsAnswered(q.id) && {
+                                            selectedOption: questionIsAnswered(
+                                                q.id,
+                                            ),
+                                        })}
+                                    />
                                 ))}
                             </ol>
                         ) : (
@@ -170,10 +217,12 @@ const Questions = () => {
                         )}
                     </div>
                     <div className="flex items-center justify-center w-full mt-4">
-                        <Button className="items-center justify-center">
+                    <Flowbite theme={{ theme: customTheme }}>
+                        <Button {...(isSubmitting && { disabled: true, isProcessing: true })} type="submit" color="primary">
                             Submit
                             <ArrowIcon className="w-4 h-4" />
                         </Button>
+                    </Flowbite>
                     </div>
                 </form>
             </div>
@@ -183,9 +232,7 @@ const Questions = () => {
                     <div className="flex items-center justify-between p-2 text-sm shadow-lg bg-danger-800 md:rounded">
                         <div className="flex-1 space-y-1 text-danger-100">
                             {formErrors.map((error, key) => (
-                                <p key={key}>
-                                    {error}
-                                </p>
+                                <p key={key}>{error}</p>
                             ))}
                         </div>
                         <button

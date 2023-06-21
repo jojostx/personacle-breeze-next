@@ -1,8 +1,11 @@
 import { useStateContext } from '@/contexts/QuestionContext'
 import { range } from '@/lib/util'
+import { Label, Radio } from 'flowbite-react'
+import { useEffect, useState } from 'react'
 
-const Question = ({ question }) => {
+const Question = ({ question, selectedOption }) => {
     const { setQuestionsAnswered } = useStateContext()
+    const [selected, setSelected] = useState(selectedOption)
 
     const options = {
         1: 'Strongly Disagree',
@@ -16,14 +19,25 @@ const Question = ({ question }) => {
         event.preventDefault()
 
         setQuestionsAnswered({ answer: question, type: 'add' })
+
+        setSelected(event.target.value)
     }
+
+    useEffect(() => {
+        setSelected(selectedOption)
+        if (selectedOption) {
+            setQuestionsAnswered({ answer: question.id, type: 'add' })
+        }
+    }, [selectedOption])
 
     return (
         <>
             <li
                 key={question.id}
                 className="p-4 space-y-2 bg-white md:py-8 md:px-8 dark:bg-gray-800 dark:border-gray-700">
-                <span className='font-semibold text-black dark:text-gray-300'>{question.attributes.question}</span>
+                <span className="font-semibold text-black dark:text-gray-300">
+                    {question.attributes.question}
+                </span>
 
                 <ul
                     onInput={event => onQuestionAnswered(event, question.id)}
@@ -42,21 +56,17 @@ const Question = ({ question }) => {
                         question.attributes.min_score >
                             question.attributes.max_score,
                     ).map(id => (
-                        <li
-                            key={`${question.id}-${id}`}
-                            className="flex items-center w-full pl-3">
-                            <input
+                        <li key={`${question.id}-${id}`} className="flex items-center w-full pl-3">
+                              <Radio
+                                {...(selected === id  && { defaultChecked: true })}
                                 id={`answer-${question.id}-${id}`}
-                                type="radio"
-                                value={id}
                                 name={`q-${question.id}`}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                                value={id}
                             />
-                            <label
-                                htmlFor={`answer-${question.id}-${id}`}
-                                className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <Label htmlFor={`answer-${question.id}-${id}`} className="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 {options[id]}
-                            </label>
+                            </Label>
                         </li>
                     ))}
                 </ul>
