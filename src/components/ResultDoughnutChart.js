@@ -271,7 +271,9 @@ export default function ResultDoughnutChart({ result }) {
             {result && (
                 <>
                     <div className="flex flex-col items-center justify-center w-full max-w-xl">
-                        <h2 className='text-xl font-semibold'>Personality Result</h2>
+                        <h2 className="text-xl font-semibold">
+                            Personality Result
+                        </h2>
                         <div className="relative w-full h-full mt-6">
                             <div className="absolute inset-0">
                                 {secTemperamentData && (
@@ -356,43 +358,69 @@ export default function ResultDoughnutChart({ result }) {
                             </div>
                         </div>
                         <div className="flex flex-col gap-4 pb-6 mt-6 lg:items-center lg:justify-center">
-                            <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
+                            <div className="flex flex-col gap-4 lg:flex-row justify-evenly">
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span style={{backgroundColor: colors.blue}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
+                                    <span
+                                        style={{ backgroundColor: colors.blue }}
+                                        className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
+                                    />
                                     Melancholy
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span style={{backgroundColor: colors.red}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0" ></span>
+                                    <span
+                                        style={{ backgroundColor: colors.red }}
+                                        className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
+                                    />
                                     Choleric
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span style={{backgroundColor: colors.yellow}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
+                                    <span
+                                        style={{
+                                            backgroundColor: colors.yellow,
+                                        }}
+                                        className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
+                                    />
                                     Sanguine
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span style={{backgroundColor: colors.green}} className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"></span>
+                                    <span
+                                        style={{
+                                            backgroundColor: colors.green,
+                                        }}
+                                        className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
+                                    />
                                     Phelgmatic
                                 </span>
                             </div>
-                            <div className='flex flex-col gap-4 lg:flex-row justify-evenly'>
+                            <div className="flex flex-col gap-4 lg:flex-row justify-evenly">
                                 <span className="flex items-center flex-shrink-0 font-medium text-gray-900 dark:text-white">
-                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">💡</span>
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">
+                                        💡
+                                    </span>
                                     Openness to experience
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">⚙️</span>
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">
+                                        ⚙️
+                                    </span>
                                     Conscentiousnes
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">💬</span>
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">
+                                        💬
+                                    </span>
                                     Extraversion
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">🤝</span>
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">
+                                        🤝
+                                    </span>
                                     Agreeableness
                                 </span>
                                 <span className="flex items-center font-medium text-gray-900 dark:text-white">
-                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">⛈️</span>
+                                    <span className="flex rounded-full mr-1.5 flex-shrink-0">
+                                        ⛈️
+                                    </span>
                                     Neuroticism
                                 </span>
                             </div>

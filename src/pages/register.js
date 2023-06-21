@@ -134,7 +134,9 @@ const Register = () => {
                     </div>
 
                     <div className="flex items-center justify-end mt-4">
-                        <Button className="items-center justify-center w-full">Register</Button>
+                        <Button className="items-center justify-center w-full">
+                            Register
+                        </Button>
                     </div>
 
                     <div className="mt-3 text-sm text-center text-gray-500">

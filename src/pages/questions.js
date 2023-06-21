@@ -16,11 +16,12 @@ import { Button } from 'flowbite-react'
 
 const customTheme = {
     button: {
-      color: {
-        primary: 'bg-primary-800 border border-transparent text-white hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150',
-      },
+        color: {
+            primary:
+                'bg-primary-800 border border-transparent text-white hover:bg-primary-700 active:bg-primary-900 focus:outline-none focus:border-primary-900 focus:ring ring-primary-300 disabled:opacity-25 transition ease-in-out duration-150',
+        },
     },
-  };  
+}
 
 const Questions = () => {
     const router = useRouter()
@@ -36,7 +37,7 @@ const Questions = () => {
 
     const [answeredQuestions, setAnsweredQuestions] = useState()
 
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
     useEffect(() => {
         async function getQuestions() {
@@ -217,12 +218,18 @@ const Questions = () => {
                         )}
                     </div>
                     <div className="flex items-center justify-center w-full mt-4">
-                    <Flowbite theme={{ theme: customTheme }}>
-                        <Button {...(isSubmitting && { disabled: true, isProcessing: true })} type="submit" color="primary">
-                            Submit
-                            <ArrowIcon className="w-4 h-4" />
-                        </Button>
-                    </Flowbite>
+                        <Flowbite theme={{ theme: customTheme }}>
+                            <Button
+                                {...(isSubmitting && {
+                                    disabled: true,
+                                    isProcessing: true,
+                                })}
+                                type="submit"
+                                color="primary">
+                                Submit
+                                <ArrowIcon className="w-4 h-4" />
+                            </Button>
+                        </Flowbite>
                     </div>
                 </form>
             </div>

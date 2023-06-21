@@ -72,7 +72,8 @@ export default function Banner({
         bottomRight: 'shadow-t-lg',
     }
 
-    const _position = position in positions ? positions[position] : positions['bottom']
+    const _position =
+        position in positions ? positions[position] : positions['bottom']
     const _color = color in colors ? colors[color] : colors['white']
     const shadow = position in shadows ? shadows[position] : shadows['top']
 
