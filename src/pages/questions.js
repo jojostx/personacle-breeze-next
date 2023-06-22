@@ -41,7 +41,7 @@ const Questions = () => {
 
     useEffect(() => {
         async function getQuestions() {
-            const response = await axios.get('/api/v1/questions')
+            const response = await axios.get('/v1/questions')
             const questions = response.data.data
 
             if (questions) {
@@ -51,7 +51,7 @@ const Questions = () => {
         }
 
         async function getAnsweredQuestions() {
-            const response = await axios.get('/api/v1/user/answers')
+            const response = await axios.get('/v1/user/answers')
 
             const answeredQuestions = response.data.data
 
@@ -139,7 +139,7 @@ const Questions = () => {
         }
 
         await axios
-            .post('/api/v1/user/answers', data)
+            .post('/v1/user/answers', data)
             .then(() => {
                 setIsSubmitting(false)
                 return router.push('/result')

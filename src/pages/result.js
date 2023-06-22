@@ -12,7 +12,7 @@ const Result = () => {
 
     useEffect(() => {
         async function getResultData() {
-            const response = await axios.get('/api/v1/user/results')
+            const response = await axios.get('/v1/user/results')
             const result = response.data.data
 
             if (result) {
@@ -21,9 +21,7 @@ const Result = () => {
         }
 
         async function getUnansweredQuestionsData() {
-            const response = await axios.get(
-                '/api/v1/user/unanswered_questions',
-            )
+            const response = await axios.get('/v1/user/unanswered_questions')
             const result = response.data.data
 
             setHasUnansweredQuestions(result.length ? true : false)

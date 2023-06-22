@@ -78,7 +78,7 @@ export default function MobileMenu() {
                         </li>
                         <li>
                             <Link
-                                href="/signup"
+                                href="/register"
                                 className="w-full my-2 text-gray-200 bg-gray-900 btn-sm hover:bg-gray-800"
                                 onClick={() => setMobileNavOpen(false)}>
                                 <span>Sign up</span>
