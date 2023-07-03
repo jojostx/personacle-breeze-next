@@ -1,6 +1,5 @@
 import ArrowIcon from '@/components/ArrowIcon'
 import Banner from '@/components/Banner'
-// import Button from '@/components/Button'
 import AppLayout from '@/components/Layouts/AppLayout'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import Question from '@/components/Question'
@@ -13,6 +12,8 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Button } from 'flowbite-react'
+import ResetAnswersButton from '@/components/ResetAnswersButton'
+import { useQuestions } from '@/hooks/useQuestions'
 
 const customTheme = {
     button: {
@@ -75,6 +76,7 @@ const Questions = () => {
     }, [questionsAnswered])
 
     const showError = body => {
+        setIsSubmitting(false)
         setHasFormErrors(true)
         setFormErrors(body)
     }
@@ -142,6 +144,7 @@ const Questions = () => {
             .post('/v1/user/answers', data)
             .then(() => {
                 setIsSubmitting(false)
+
                 return router.push('/result')
             })
             .catch(error => {
@@ -177,7 +180,11 @@ const Questions = () => {
             </Head>
 
             {showProgressBar && (
-                <Banner isOpen={true} showCloseButton={false} position="bottom">
+                <Banner
+                    isOpen={true}
+                    showTriggerButton={true}
+                    triggerButton={<ResetAnswersButton />}
+                    position="bottom">
                     <Progress
                         labelProgress
                         labelText
@@ -191,10 +198,14 @@ const Questions = () => {
                 </Banner>
             )}
 
-            <div className="pt-4 pb-24">
-                <form
-                    onSubmit={submitForm}
-                    className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+            <div className="px-4 pt-4 pb-24 mx-auto space-y-4 max-w-7xl sm:px-6 lg:px-8">
+                <div className="p-4 border rounded-lg shadow shadow-success-300 bg-success-100 border-success-200 dark:bg-success-500/50 dark:border-success-300">
+                    <p className="text-lg font-semibold text-success-900 dark:text-success-100">
+                        You are required to answer with how much you agree or
+                        disagree with the following statements.
+                    </p>
+                </div>
+                <form onSubmit={submitForm}>
                     <div className="md:max-h-[420px] h-full overflow-hidden overflow-y-scroll bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         {questions ? (
                             <ol className="space-y-2 list-decimal list-inside border border-gray-200 divide-y-2 divide-gray-300 rounded-lg shadow-sm dark:border-gray-700">

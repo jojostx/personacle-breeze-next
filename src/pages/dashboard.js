@@ -31,7 +31,7 @@ const Dashboard = () => {
                             </p>
                             <Link
                                 href="/questions"
-                                className="inline-flex items-center px-3 py-2 mt-auto text-sm font-medium text-center text-white bg-blue-700 rounded-lg max-w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                className="inline-flex items-center px-3 py-2 mt-auto text-sm font-medium text-center text-white bg-primary-700 rounded-lg max-w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                 Start
                                 <svg
                                     aria-hidden="true"
@@ -64,8 +64,8 @@ const Dashboard = () => {
                             </p>
 
                             <Link
-                                href="/questions"
-                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg justify-self-end max-w-fit hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                href="/result"
+                                className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-primary-700 rounded-lg justify-self-end max-w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                 Share
                                 <svg
                                     aria-hidden="true"

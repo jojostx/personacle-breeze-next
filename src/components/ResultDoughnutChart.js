@@ -3,6 +3,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { Doughnut, Pie } from 'react-chartjs-2'
 import { average, formatRgb } from 'culori'
 import { useEffect, useState } from 'react'
+import { floor, round } from 'lodash'
 
 ChartJS.register(ArcElement, Tooltip)
 
@@ -111,7 +112,6 @@ export default function ResultDoughnutChart({ result }) {
 
         const getPersonalityTraitScores = () => {
             return result.personality_traits
-                .sort((a, b) => a.score - b.score)
                 .map(el => el.score * 100)
         }
 
@@ -327,6 +327,11 @@ export default function ResultDoughnutChart({ result }) {
                                                         let i =
                                                             context.dataIndex
 
+                                                            console.log(context.dataset.data);
+                                                            console.log(context.dataIndex);
+                                                            console.log(Object.values(personalityTraitSymbols));
+                                                            console.log(Object.values(personalityTraitSymbols)[i]);
+
                                                         return (
                                                             Object.values(
                                                                 personalityTraitSymbols,
@@ -351,7 +356,7 @@ export default function ResultDoughnutChart({ result }) {
                                     {priTemperament && (
                                         <>
                                             <p>{priTemperament.title}</p>
-                                            <p>{priTemperament.score * 100}%</p>
+                                            <p>{floor(priTemperament.score, 3) * 100}%</p>
                                         </>
                                     )}
                                 </div>
@@ -359,21 +364,21 @@ export default function ResultDoughnutChart({ result }) {
                         </div>
                         <div className="flex flex-col gap-4 pb-6 mt-6 lg:items-center lg:justify-center">
                             <div className="flex flex-col gap-4 lg:flex-row justify-evenly">
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span
                                         style={{ backgroundColor: colors.blue }}
                                         className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
                                     />
                                     Melancholy
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span
                                         style={{ backgroundColor: colors.red }}
                                         className="flex w-3 h-3 rounded-full mr-1.5 flex-shrink-0"
                                     />
                                     Choleric
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span
                                         style={{
                                             backgroundColor: colors.yellow,
@@ -382,7 +387,7 @@ export default function ResultDoughnutChart({ result }) {
                                     />
                                     Sanguine
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span
                                         style={{
                                             backgroundColor: colors.green,
@@ -393,31 +398,31 @@ export default function ResultDoughnutChart({ result }) {
                                 </span>
                             </div>
                             <div className="flex flex-col gap-4 lg:flex-row justify-evenly">
-                                <span className="flex items-center flex-shrink-0 font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center flex-shrink-0 text-lg font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">
                                         💡
                                     </span>
                                     Openness to experience
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">
                                         ⚙️
                                     </span>
                                     Conscentiousnes
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">
                                         💬
                                     </span>
                                     Extraversion
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">
                                         🤝
                                     </span>
                                     Agreeableness
                                 </span>
-                                <span className="flex items-center font-medium text-gray-900 dark:text-white">
+                                <span className="flex items-center text-lg font-medium text-gray-900 dark:text-white">
                                     <span className="flex rounded-full mr-1.5 flex-shrink-0">
                                         ⛈️
                                     </span>

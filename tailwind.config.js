@@ -32,7 +32,7 @@ module.exports = {
             },
             colors: {
                 secondary: colors.slate,
-                primary: colors.blue,
+                primary: colors.indigo,
                 danger: colors.rose,
                 success: colors.green,
                 warning: colors.yellow,

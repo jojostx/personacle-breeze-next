@@ -40,7 +40,7 @@ export default function Hero() {
                             className="mb-4 text-5xl font-semibold tracking-tighter md:text-6xl leading-tighter"
                             data-aos="zoom-y-out">
                             Know yourself <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-teal-400">
                                 better
                             </span>
                         </h1>
@@ -63,7 +63,7 @@ export default function Hero() {
                                 <div>
                                     <Link
                                         href="/login"
-                                        className="w-full mb-4 text-white bg-blue-600 btn hover:bg-blue-700 sm:w-auto sm:mb-0">
+                                        className="w-full mb-4 text-white bg-primary-600 btn hover:bg-primary-700 sm:w-auto sm:mb-0">
                                         Start now
                                     </Link>
                                 </div>

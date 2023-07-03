@@ -3,15 +3,24 @@ import { createContext, useState, useContext, useReducer } from 'react'
 const questionsAnsweredReducer = (state, action) => {
     const { answer, type } = action
 
-    if (type === 'add') {
-        return { answers: state.answers.add(answer) }
-    }
+    switch (type) {
+        case 'add': {
+            return { ...state, answers: state.answers.add(answer) }
+        }
 
-    if (type === 'delete') {
-        return { answers: state.answers.delete(answer) }
-    }
+        case 'delete': {
+            state.answers.delete(answer)
+            return { ...state, answers: state.answers }
+        }
 
-    throw Error('Unknown action.')
+        case 'clear': {
+            state.answers.clear()
+            return { ...state, answers: state.answers }
+        }
+
+        default:
+            return state
+    }
 }
 
 export const stateContext = createContext({

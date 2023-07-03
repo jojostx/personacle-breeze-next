@@ -19,8 +19,8 @@ export default function LoadingSpinner() {
                 cx="50"
                 cy="50"
                 fill="none"
-                stroke="#419bff"
-                strokeWidth="10"
+                stroke="rgb(81,69,205)"
+                strokeWidth="5"
                 r="35"
                 strokeDasharray="164.93361431346415 56.97787143782138">
                 <animateTransform
